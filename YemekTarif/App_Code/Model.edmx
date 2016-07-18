@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="YemekTarifModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriID" />
+          </Key>
+          <Property Name="KategoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAd" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="KullaniciID" />
+          </Key>
+          <Property Name="KullaniciID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdSoyad" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sifre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Yetki" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Telefon" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Adres" Type="varchar" MaxLength="20" />
+          <Property Name="Cinsiyet" Type="varchar" MaxLength="20" />
+          <Property Name="ProfilFoto" Type="varchar(max)" />
+          <Property Name="GonderdigiTarifSayisi" Type="int" />
+          <Property Name="Puan" Type="int" />
+          <Property Name="YorumSayisi" Type="int" />
+          <Property Name="Silindi" Type="bit" />
+        </EntityType>
+        <EntityType Name="YemekBegeni">
+          <Key>
+            <PropertyRef Name="BegeniID" />
+          </Key>
+          <Property Name="BegeniID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YemekID" Type="int" Nullable="false" />
+          <Property Name="KullaniciID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="YemekFavori">
+          <Key>
+            <PropertyRef Name="FavoriID" />
+          </Key>
+          <Property Name="FavoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YemekID" Type="int" />
+          <Property Name="KullaniciID" Type="int" />
+        </EntityType>
+        <EntityType Name="Yemekler">
+          <Key>
+            <PropertyRef Name="YemekID" />
+          </Key>
+          <Property Name="YemekID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YemekAdi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Malzeme" Type="varchar(max)" Nullable="false" />
+          <Property Name="Yapilis" Type="varchar(max)" Nullable="false" />
+          <Property Name="YemekFoto" Type="varchar(max)" />
+          <Property Name="KategoriID" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="Gonderen" Type="varchar" MaxLength="20" />
+          <Property Name="YemekPuanSayisi" Type="int" />
+          <Property Name="YemekYorumSayisi" Type="int" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
+          <Property Name="Silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yorumlar">
+          <Key>
+            <PropertyRef Name="YorumID" />
+          </Key>
+          <Property Name="YorumID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YemekID" Type="int" Nullable="false" />
+          <Property Name="KullaniciID" Type="int" Nullable="false" />
+          <Property Name="YorumMetni" Type="varchar(max)" />
+          <Property Name="YorumTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Silindi" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_YemekBegeni_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="1" />
+          <End Role="YemekBegeni" Type="Self.YemekBegeni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="YemekBegeni">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekBegeni_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="1" />
+          <End Role="YemekBegeni" Type="Self.YemekBegeni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="YemekBegeni">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekFavori_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="YemekFavori" Type="Self.YemekFavori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="YemekFavori">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekFavori_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="0..1" />
+          <End Role="YemekFavori" Type="Self.YemekFavori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="YemekFavori">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yemekler_Kategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriID" />
+            </Principal>
+            <Dependent Role="Yemekler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorumlar_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorumlar_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YemekTarifModelStoreContainer">
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YemekBegeni" EntityType="Self.YemekBegeni" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YemekFavori" EntityType="Self.YemekFavori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yemekler" EntityType="Self.Yemekler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yorumlar" EntityType="Self.Yorumlar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_YemekBegeni_Kullanicilar" Association="Self.FK_YemekBegeni_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="YemekBegeni" EntitySet="YemekBegeni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekBegeni_Yemekler" Association="Self.FK_YemekBegeni_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="YemekBegeni" EntitySet="YemekBegeni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekFavori_Kullanicilar" Association="Self.FK_YemekFavori_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="YemekFavori" EntitySet="YemekFavori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekFavori_Yemekler" Association="Self.FK_YemekFavori_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="YemekFavori" EntitySet="YemekFavori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yemekler_Kategoriler" Association="Self.FK_Yemekler_Kategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Yemekler" EntitySet="Yemekler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorumlar_Kullanicilar" Association="Self.FK_Yorumlar_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorumlar_Yemekler" Association="Self.FK_Yorumlar_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="YemekTarifModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriID" />
+          </Key>
+          <Property Name="KategoriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Yemekler" Relationship="Self.FK_Yemekler_Kategoriler" FromRole="Kategoriler" ToRole="Yemekler" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="KullaniciID" />
+          </Key>
+          <Property Name="KullaniciID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdSoyad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sifre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Yetki" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Adres" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cinsiyet" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ProfilFoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="GonderdigiTarifSayisi" Type="Int32" />
+          <Property Name="Puan" Type="Int32" />
+          <Property Name="YorumSayisi" Type="Int32" />
+          <Property Name="Silindi" Type="Boolean" />
+          <NavigationProperty Name="YemekBegeni" Relationship="Self.FK_YemekBegeni_Kullanicilar" FromRole="Kullanicilar" ToRole="YemekBegeni" />
+          <NavigationProperty Name="YemekFavori" Relationship="Self.FK_YemekFavori_Kullanicilar" FromRole="Kullanicilar" ToRole="YemekFavori" />
+          <NavigationProperty Name="Yorumlar" Relationship="Self.FK_Yorumlar_Kullanicilar" FromRole="Kullanicilar" ToRole="Yorumlar" />
+        </EntityType>
+        <EntityType Name="YemekBegeni">
+          <Key>
+            <PropertyRef Name="BegeniID" />
+          </Key>
+          <Property Name="BegeniID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YemekID" Type="Int32" Nullable="false" />
+          <Property Name="KullaniciID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_YemekBegeni_Kullanicilar" FromRole="YemekBegeni" ToRole="Kullanicilar" />
+          <NavigationProperty Name="Yemekler" Relationship="Self.FK_YemekBegeni_Yemekler" FromRole="YemekBegeni" ToRole="Yemekler" />
+        </EntityType>
+        <EntityType Name="YemekFavori">
+          <Key>
+            <PropertyRef Name="FavoriID" />
+          </Key>
+          <Property Name="FavoriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YemekID" Type="Int32" />
+          <Property Name="KullaniciID" Type="Int32" />
+          <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_YemekFavori_Kullanicilar" FromRole="YemekFavori" ToRole="Kullanicilar" />
+          <NavigationProperty Name="Yemekler" Relationship="Self.FK_YemekFavori_Yemekler" FromRole="YemekFavori" ToRole="Yemekler" />
+        </EntityType>
+        <EntityType Name="Yemekler">
+          <Key>
+            <PropertyRef Name="YemekID" />
+          </Key>
+          <Property Name="YemekID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YemekAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Malzeme" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Yapilis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YemekFoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="KategoriID" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Gonderen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="YemekPuanSayisi" Type="Int32" />
+          <Property Name="YemekYorumSayisi" Type="Int32" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
+          <Property Name="Silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kategoriler" Relationship="Self.FK_Yemekler_Kategoriler" FromRole="Yemekler" ToRole="Kategoriler" />
+          <NavigationProperty Name="YemekBegeni" Relationship="Self.FK_YemekBegeni_Yemekler" FromRole="Yemekler" ToRole="YemekBegeni" />
+          <NavigationProperty Name="YemekFavori" Relationship="Self.FK_YemekFavori_Yemekler" FromRole="Yemekler" ToRole="YemekFavori" />
+          <NavigationProperty Name="Yorumlar" Relationship="Self.FK_Yorumlar_Yemekler" FromRole="Yemekler" ToRole="Yorumlar" />
+        </EntityType>
+        <EntityType Name="Yorumlar">
+          <Key>
+            <PropertyRef Name="YorumID" />
+          </Key>
+          <Property Name="YorumID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YemekID" Type="Int32" Nullable="false" />
+          <Property Name="KullaniciID" Type="Int32" Nullable="false" />
+          <Property Name="YorumMetni" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="YorumTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Silindi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_Yorumlar_Kullanicilar" FromRole="Yorumlar" ToRole="Kullanicilar" />
+          <NavigationProperty Name="Yemekler" Relationship="Self.FK_Yorumlar_Yemekler" FromRole="Yorumlar" ToRole="Yemekler" />
+        </EntityType>
+        <Association Name="FK_Yemekler_Kategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriID" />
+            </Principal>
+            <Dependent Role="Yemekler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekBegeni_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="1" />
+          <End Role="YemekBegeni" Type="Self.YemekBegeni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="YemekBegeni">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekFavori_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+          <End Role="YemekFavori" Type="Self.YemekFavori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="YemekFavori">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorumlar_Kullanicilar">
+          <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanicilar">
+              <PropertyRef Name="KullaniciID" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekBegeni_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="1" />
+          <End Role="YemekBegeni" Type="Self.YemekBegeni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="YemekBegeni">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YemekFavori_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="0..1" />
+          <End Role="YemekFavori" Type="Self.YemekFavori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="YemekFavori">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yorumlar_Yemekler">
+          <End Role="Yemekler" Type="Self.Yemekler" Multiplicity="1" />
+          <End Role="Yorumlar" Type="Self.Yorumlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yemekler">
+              <PropertyRef Name="YemekID" />
+            </Principal>
+            <Dependent Role="Yorumlar">
+              <PropertyRef Name="YemekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="YemekTarifEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" />
+          <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" />
+          <EntitySet Name="YemekBegeni" EntityType="Self.YemekBegeni" />
+          <EntitySet Name="YemekFavori" EntityType="Self.YemekFavori" />
+          <EntitySet Name="Yemekler" EntityType="Self.Yemekler" />
+          <EntitySet Name="Yorumlar" EntityType="Self.Yorumlar" />
+          <AssociationSet Name="FK_Yemekler_Kategoriler" Association="Self.FK_Yemekler_Kategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Yemekler" EntitySet="Yemekler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekBegeni_Kullanicilar" Association="Self.FK_YemekBegeni_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="YemekBegeni" EntitySet="YemekBegeni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekFavori_Kullanicilar" Association="Self.FK_YemekFavori_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="YemekFavori" EntitySet="YemekFavori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorumlar_Kullanicilar" Association="Self.FK_Yorumlar_Kullanicilar">
+            <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekBegeni_Yemekler" Association="Self.FK_YemekBegeni_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="YemekBegeni" EntitySet="YemekBegeni" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YemekFavori_Yemekler" Association="Self.FK_YemekFavori_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="YemekFavori" EntitySet="YemekFavori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yorumlar_Yemekler" Association="Self.FK_Yorumlar_Yemekler">
+            <End Role="Yemekler" EntitySet="Yemekler" />
+            <End Role="Yorumlar" EntitySet="Yorumlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="YemekTarifModelStoreContainer" CdmEntityContainer="YemekTarifEntities">
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="YemekTarifModel.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+                <ScalarProperty Name="KategoriAd" ColumnName="KategoriAd" />
+                <ScalarProperty Name="Silindi" ColumnName="Silindi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanicilar">
+            <EntityTypeMapping TypeName="YemekTarifModel.Kullanicilar">
+              <MappingFragment StoreEntitySet="Kullanicilar">
+                <ScalarProperty Name="KullaniciID" ColumnName="KullaniciID" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Yetki" ColumnName="Yetki" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Cinsiyet" ColumnName="Cinsiyet" />
+                <ScalarProperty Name="ProfilFoto" ColumnName="ProfilFoto" />
+                <ScalarProperty Name="GonderdigiTarifSayisi" ColumnName="GonderdigiTarifSayisi" />
+                <ScalarProperty Name="Puan" ColumnName="Puan" />
+                <ScalarProperty Name="YorumSayisi" ColumnName="YorumSayisi" />
+                <ScalarProperty Name="Silindi" ColumnName="Silindi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YemekBegeni">
+            <EntityTypeMapping TypeName="YemekTarifModel.YemekBegeni">
+              <MappingFragment StoreEntitySet="YemekBegeni">
+                <ScalarProperty Name="BegeniID" ColumnName="BegeniID" />
+                <ScalarProperty Name="YemekID" ColumnName="YemekID" />
+                <ScalarProperty Name="KullaniciID" ColumnName="KullaniciID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YemekFavori">
+            <EntityTypeMapping TypeName="YemekTarifModel.YemekFavori">
+              <MappingFragment StoreEntitySet="YemekFavori">
+                <ScalarProperty Name="FavoriID" ColumnName="FavoriID" />
+                <ScalarProperty Name="YemekID" ColumnName="YemekID" />
+                <ScalarProperty Name="KullaniciID" ColumnName="KullaniciID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yemekler">
+            <EntityTypeMapping TypeName="YemekTarifModel.Yemekler">
+              <MappingFragment StoreEntitySet="Yemekler">
+                <ScalarProperty Name="YemekID" ColumnName="YemekID" />
+                <ScalarProperty Name="YemekAdi" ColumnName="YemekAdi" />
+                <ScalarProperty Name="Malzeme" ColumnName="Malzeme" />
+                <ScalarProperty Name="Yapilis" ColumnName="Yapilis" />
+                <ScalarProperty Name="YemekFoto" ColumnName="YemekFoto" />
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Gonderen" ColumnName="Gonderen" />
+                <ScalarProperty Name="YemekPuanSayisi" ColumnName="YemekPuanSayisi" />
+                <ScalarProperty Name="YemekYorumSayisi" ColumnName="YemekYorumSayisi" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+                <ScalarProperty Name="Silindi" ColumnName="Silindi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yorumlar">
+            <EntityTypeMapping TypeName="YemekTarifModel.Yorumlar">
+              <MappingFragment StoreEntitySet="Yorumlar">
+                <ScalarProperty Name="YorumID" ColumnName="YorumID" />
+                <ScalarProperty Name="YemekID" ColumnName="YemekID" />
+                <ScalarProperty Name="KullaniciID" ColumnName="KullaniciID" />
+                <ScalarProperty Name="YorumMetni" ColumnName="YorumMetni" />
+                <ScalarProperty Name="YorumTarihi" ColumnName="YorumTarihi" />
+                <ScalarProperty Name="Silindi" ColumnName="Silindi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

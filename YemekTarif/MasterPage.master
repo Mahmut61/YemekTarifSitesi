@@ -1,0 +1,166 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Yemek Tarif Sitesi</title>
+    <%-- ------ CSS ------ --%>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/prettyPhoto.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+        rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <%--Deneme--%>
+
+        <header id="header">
+    <div class="top-bar">
+    <div class="container">
+    <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="top-number"><p><i class="fa fa-thumbs-up"></i> <asp:Label ID="lblKullanici" runat="server" Text="Kullanici"></asp:Label></p></div>
+    </div>
+     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="social">
+     <ul class="social-share">
+        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>        
+        <li><a href="#"><i class="fa fa-skype"></i></a></li>
+     </ul>     
+       
+    </div>
+    </div>
+    </div>
+      </div><%--container--%>
+        </div><%--/top-bar--%>
+      <nav class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="AnaSayfa.aspx"><img src="images/logo1.png" alt="logo" style="height:80px"></a>
+                </div>
+				<asp:Panel ID="pnlNormal" runat="server">
+                    <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="AnaSayfa.aspx">AnaSayfa</a></li>
+                       <li><a href="Tarifler.aspx">Tarifler</a></li>
+                        <li><a href="Hakkimizda.aspx">Hakkimizda</a></li>
+                        <li><a href="UyeOl.aspx">Kayıt Ol</a></li> 
+                        <li><a href="Giris.aspx">Giriş</a></li>                        
+                    </ul>
+                </div>
+				</asp:Panel>
+               <asp:Panel ID="pnlKullanici" runat="server" Visible="false">
+                    <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="AnaSayfa.aspx">AnaSayfa</a></li>
+                       <li><a href="Tarifler.aspx">Tarifler</a></li>
+                        <li><a href="Hakkimizda.aspx">Hakkimizda</a></li>                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tarif İşlemleri <i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="TarifEkle.aspx">Tarif Ekle</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><asp:LinkButton ID="lbKullaniciCikis" runat="server" OnClick="lbKullaniciCikis_Click">Çıkış</asp:LinkButton></a></li>                        
+                    </ul>
+                </div>
+               </asp:Panel>
+                  <asp:Panel ID="pnlAdmin" runat="server" Visible="false">
+                    <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="AnaSayfa.aspx">AnaSayfa</a></li>
+                       <li><a href="Tarifler.aspx">Tarifler</a></li>                       
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tarif İşlemleri <i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="TarifEkle.aspx">Tarif Ekle</a></li>
+                                <li><a href="TarifOnay.aspx">Tarif Onayla</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="KategoriDuzenle.aspx">Kategori Düzenle</a></li> 
+                        <li><a href="#"><asp:LinkButton ID="lbCikisAdmin" runat="server" OnClick="lbCikisAdmin_Click">Çıkış</asp:LinkButton></a></li>                        
+                    </ul>
+                </div>
+               </asp:Panel>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+ 
+    </header>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            İÇERİK
+        </asp:ContentPlaceHolder>
+        <footer id="footer" class="midnight-blue">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; 2016 Tüm Hakları Saklıdır.
+                </div>
+                <div class="col-sm-6">
+                    <ul class="pull-right">
+                        <li><a href="AnaSayfa.aspx">AnaSayfa</a></li>
+                        <li><a href="Hakkimizda.aspx">Hakkimizda</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="back-to-top"><i class="fa fa-2x fa-angle-up"></i></a>
+    </footer>
+        <!--/#footer-->
+        <!-- Back To Top -->
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                var offset = 300;
+                var duration = 500;
+                jQuery(window).scroll(function () {
+                    if (jQuery(this).scrollTop() > offset) {
+                        jQuery('.back-to-top').fadeIn(duration);
+                    } else {
+                        jQuery('.back-to-top').fadeOut(duration);
+                    }
+                });
+
+                jQuery('.back-to-top').click(function (event) {
+                    event.preventDefault();
+                    jQuery('html, body').animate({ scrollTop: 0 }, duration);
+                    return false;
+                })
+            });
+        </script>
+        <!-- /top-link-block -->
+        <!-- Jscript -->
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/jquery.prettyPhoto.js" type="text/javascript"></script>
+        <script src="js/jquery.isotope.min.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
+        <script src="js/wow.min.js" type="text/javascript"></script>
+
+        <%-- Deneme Bitti--%>
+    </form>
+</body>
+</html>
